@@ -1,8 +1,30 @@
+using ProductService.ProductRepository;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddControllers();
+
+builder.Services.AddEndpointsApiExplorer(); 
+builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient();
+
+builder.Services.AddScoped<IProductService, ProductsService>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.Authority = builder.Configuration["Auth:Domain"];
+                        options.Audience = builder.Configuration["Auth:Audience"];
+                    });
+builder.Services.AddAuthorization();
+
 
 var app = builder.Build();
 
@@ -13,6 +35,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
+
+app.MapControllers();
 
 var summaries = new[]
 {

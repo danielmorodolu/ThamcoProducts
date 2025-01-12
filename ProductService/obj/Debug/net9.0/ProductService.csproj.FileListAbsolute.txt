@@ -31,3 +31,15 @@
 /Users/a44773/ThamcoProducts/ProductService/obj/Debug/net9.0/ProductService.pdb
 /Users/a44773/ThamcoProducts/ProductService/obj/Debug/net9.0/ProductService.genruntimeconfig.cache
 /Users/a44773/ThamcoProducts/ProductService/obj/Debug/net9.0/ref/ProductService.dll
+/Users/a44773/ThamcoProducts/ProductService/bin/Debug/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/a44773/ThamcoProducts/ProductService/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/a44773/ThamcoProducts/ProductService/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/a44773/ThamcoProducts/ProductService/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll
+/Users/a44773/ThamcoProducts/ProductService/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.dll
+/Users/a44773/ThamcoProducts/ProductService/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/a44773/ThamcoProducts/ProductService/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll
+/Users/a44773/ThamcoProducts/ProductService/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
+/Users/a44773/ThamcoProducts/ProductService/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Users/a44773/ThamcoProducts/ProductService/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/Users/a44773/ThamcoProducts/ProductService/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/a44773/ThamcoProducts/ProductService/obj/Debug/net9.0/ProductService.sourcelink.json
