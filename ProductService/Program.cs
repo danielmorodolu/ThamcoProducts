@@ -1,6 +1,10 @@
 using ProductService.ProductRepository;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Polly;
+using Polly.Extensions.Http;
+using System.Net.Http;
+using ThamcoProducts.ProductRepository;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +29,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     });
 builder.Services.AddAuthorization();
 
+if(builder.Environment.IsDevelopment()){
+    builder.Services.AddSingleton<IProductService, FakeProductService>();
+}
+else {
+
+   builder.Services.AddHttpClient<IProductService, ProductsService>()
+                    .AddPolicyHandler(GetRetryPolicy())
+                    .AddPolicyHandler(GetCircuitBreakerPolicy()); ;
+    
+}
+
 
 var app = builder.Build();
 
@@ -44,28 +59,22 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    return HttpPolicyExtensions
+        .HandleTransientHttpError()
+        .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+        .WaitAndRetryAsync(5, retryAttempt =>
+            TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+}
+
+IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
+{
+    return HttpPolicyExtensions
+        .HandleTransientHttpError()
+        .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30));
 }
