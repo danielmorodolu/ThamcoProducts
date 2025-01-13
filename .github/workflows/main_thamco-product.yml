@@ -1,7 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy ASP.Net Core app to Azure Web App - Thamco-product
+name: Build, Test, and Deploy ASP.Net Core app to Azure Web App - Thamco-product
 
 on:
   push:
@@ -21,17 +18,28 @@ jobs:
         with:
           dotnet-version: '9.x'
 
+      # Restore dependencies
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # Run unit tests
+      - name: Run tests
+        run: dotnet test --configuration Release --verbosity normal
+
+      # Build the application
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
+      # Publish the application
       - name: dotnet publish
-        run: dotnet publish ProductService -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish ProductService -c Release -o ./myapp
 
+      # Upload artifact for deployment job
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ./myapp
 
   deploy:
     runs-on: ubuntu-latest
@@ -39,18 +47,20 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
+
     steps:
+      # Download build artifact
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-      
+
+      # Deploy to Azure Web App
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'Thamco-product'
           slot-name: 'Production'
-          package: .
+          package: ./myapp
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EF669E7040DE4C03A00BA24B49514BC9 }}
