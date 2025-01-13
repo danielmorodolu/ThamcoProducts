@@ -43,3 +43,6 @@
 /Users/a44773/ThamcoProducts/ProductService/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
 /Users/a44773/ThamcoProducts/ProductService/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll
 /Users/a44773/ThamcoProducts/ProductService/obj/Debug/net9.0/ProductService.sourcelink.json
+/Users/a44773/ThamcoProducts/ProductService/bin/Debug/net9.0/Microsoft.Extensions.Http.Polly.dll
+/Users/a44773/ThamcoProducts/ProductService/bin/Debug/net9.0/Polly.dll
+/Users/a44773/ThamcoProducts/ProductService/bin/Debug/net9.0/Polly.Extensions.Http.dll
