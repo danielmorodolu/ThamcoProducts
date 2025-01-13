@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://thamcregistry.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_919f4db6585946cb9276e8bab65d8fdf }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_b7ae2ae5ead64d26b8d860adda04402a }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_40dd022c3bd14e29bbb0512ecd052704 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_998ec7d2b38d49dbb3205b07246f1654 }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: thamcregistry.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_919f4db6585946cb9276e8bab65d8fdf }}/productservice:${{ github.sha }}
+        tags: thamcregistry.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_40dd022c3bd14e29bbb0512ecd052704 }}/productservice:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'Thamco-product'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_300f943a95dc4ccdb4e632a0f5a70778 }}
-        images: 'thamcregistry.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_919f4db6585946cb9276e8bab65d8fdf }}/productservice:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_a82c9a0b99cd4fa8ac3ec97815df971e }}
+        images: 'thamcregistry.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_40dd022c3bd14e29bbb0512ecd052704 }}/productservice:${{ github.sha }}'
