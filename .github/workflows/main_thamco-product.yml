@@ -22,13 +22,15 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
-      # Run unit tests
-      - name: Run tests
-        run: dotnet test --configuration Release --verbosity normal
-
+      
       # Build the application
       - name: Build with dotnet
         run: dotnet build --configuration Release
+
+        # Run unit tests
+      - name: Run tests
+        run: dotnet test --configuration Release --no-build --verbosity normal
+
 
       # Publish the application
       - name: dotnet publish
