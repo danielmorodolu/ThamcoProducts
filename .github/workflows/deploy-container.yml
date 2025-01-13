@@ -1,0 +1,38 @@
+name: Build and deploy Docker container to Azure Web App - Thamco-product
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.c2172268 }}
+          password: ${{ secrets.Daniel2020. }}
+
+      - name: Build Docker Image
+        run: docker build -t your-dockerhub-username/productservice:latest .
+
+      - name: Push Docker Image to Docker Hub
+        run: docker push your-dockerhub-username/productservice:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Deploy Container to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'Thamco-product'
+          images: 'your-dockerhub-username/productservice:latest'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
